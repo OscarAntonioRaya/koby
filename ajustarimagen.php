@@ -1,3 +1,14 @@
+<?php
+if (isset($_COOKIE["seleccion"])) {
+	$data = json_decode($_COOKIE['seleccion'], true);
+
+	$x1 = (strftime("%Y/%m", strtotime(($data['forFr']))));
+
+	$x2 = $data['forImg'];
+
+	$rutaForma = 'upload/formas/' . $x1 . '/' . $x2 . '.png';
+}
+?>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -41,38 +52,6 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Mrs+Sheppards&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 
-
-
-	<script>
-		(function(i, s, o, g, r, a, m) {
-
-			i['GoogleAnalyticsObject'] = r;
-
-			i[r] = i[r] || function() {
-
-				(i[r].q = i[r].q || []).push(arguments)
-
-			}, i[r].l = 1 * new Date();
-
-			a = s.createElement(o),
-
-				m = s.getElementsByTagName(o)[0];
-
-			a.async = 1;
-
-			a.src = g;
-
-			m.parentNode.insertBefore(a, m)
-
-		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-		ga('create', 'UA-10627690-5', 'auto');
-
-		ga('send', 'pageview');
-	</script>
-
-
-
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
 	<!--[if lt IE 9]>
@@ -102,10 +81,10 @@
 		</div>
 	</div>
 
-	<div class="container pt-md-0 pt-5 overflow-hidden" style="max-width: 100vw !important;">
+	<div class="container pt-md-0 py-5 overflow-hidden" style="max-width: 100vw !important;">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h2>Ajuste su imagen, y después capturela</h2>
+				<h2>Ajuste su imagen, y después capture con el ícono verde</h2>
 			</div>
 		</div>
 	</div>
@@ -113,8 +92,8 @@
 	<div class="container overflow-hidden" style="max-width: 100vw !important;">
 		<div class="row justify-content-center">
 			<div class="col-md-4" style="padding-left: 2rem">
-				<img class=" " style="width: 20rem; height:20rem; position: absolute; z-index: 2; pointer-events: none;" src="/upload/formas/2021/09/2YAMVYK5HT.png" alt="">
-				<div class="overflow-hidden"  id="cropContainerPreload" style="width: 20rem; height: 20rem"></div>
+				<img class=" " style="width: 20rem; height:20rem; position: absolute; z-index: 2; pointer-events: none;" src="<?php echo $rutaForma; ?>" alt="">
+				<div class="overflow-hidden" id="cropContainerPreload" style="width: 20rem; height: 20rem"></div>
 			</div>
 		</div>
 	</div>

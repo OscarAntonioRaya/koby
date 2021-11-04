@@ -29,7 +29,7 @@ if (isset($_COOKIE["seleccion"])) {
 
 
 
-	<title>Nuevo</title>
+	<title>Ajustar Imagen</title>
 
 
 
@@ -64,12 +64,7 @@ if (isset($_COOKIE["seleccion"])) {
 
 </head>
 
-
-
 <body style="background-color: #ededed !important;">
-
-
-
 	<div class="container-fluid overflow-hidden" style="max-width: 100vw !important;">
 		<div class="row justify-content-center justify-content-md-start">
 			<div class="col-md-1 d-md-block d-none">

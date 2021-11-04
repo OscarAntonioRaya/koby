@@ -1,0 +1,1 @@
+<footer class="footer text-center text-sm-left">&copy; <script>document.write(new Date().getFullYear());</script> <?php echo NAME_PROJECT;?> - Creado por <a target="_blank" href="https://bananagroup.mx">Banana Group</a></footer>

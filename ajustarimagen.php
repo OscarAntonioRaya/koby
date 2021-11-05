@@ -1,10 +1,24 @@
 <?php
 if (isset($_COOKIE["seleccion"])) {
 	$data = json_decode($_COOKIE['seleccion'], true);
-	$x1 = (strftime("%Y/%m", strtotime(($data['forFr']))));
-	$x2 = $data['forImg'];
-	$rutaForma = 'upload/formas/' . $x1 . '/' . $x2 . '.png';
-	$imagenExiste = true;
+
+	//Primero revisamos si existe en la cookie los datos de la forma y la imagen elegidas.
+	//Si existen, creamos la ruta de la imagen y e la forma.
+	//Además creams la variable $imagenExiste para validaren el html, si mostramos Croppic o
+	//mostramos el mensaje de que la imagen no existe
+	if (isset($data['forFr']) && isset($data['forImg']) && isset($data['fecha']) && isset($data['fotoCod'])) {
+		$x1 = (strftime("%Y/%m", strtotime(($data['forFr']))));
+		$x2 = $data['forImg'];
+		$rutaForma = 'upload/formas/' . $x1 . '/' . $x2 . '.png';
+
+		$x1 = (strftime("%Y/%m", strtotime(($data['fecha']))));
+		$x2 = $data['fotoCod'];
+		$ruta = 'upload/pedidos/' . $x1 . '/' . $x2 . '.jpg';
+
+		$imagenExiste = true;
+	} else {
+		$imagenExiste = false;
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -17,7 +31,7 @@ if (isset($_COOKIE["seleccion"])) {
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<link rel="shortcut icon" href="assets/img/favicon.png">
-	<title>Ajustar Imagen</title>
+	<title>Print Block - Ajustar Imagen</title>
 	<!-- Bootstrap core CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<!-- Custom styles for this template -->
@@ -31,6 +45,17 @@ if (isset($_COOKIE["seleccion"])) {
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+	<style>
+		.boton-rojo {
+			background-color: #ff2d3e; 
+			border-color: #ff2d3e;
+		}
+
+		.boton-rojo:hover {
+			background-color: #d60021;
+			border-color: #ff2d3e;
+		}
+	</style>
 </head>
 
 <body style="background-color: #ededed !important;">
@@ -44,49 +69,54 @@ if (isset($_COOKIE["seleccion"])) {
 			</div>
 		</div>
 	</div>
-	
-	<?php
-		if ($imagenExiste) {
-	?>
-	<div class="container pt-md-0 py-5 overflow-hidden" style="max-width: 100vw !important;">
-		<div class="row">
-			<div class="col-12 text-center">
-				<h2>Ajuste su imagen, y de click en continuar.</h2>
-			</div>
-		</div>
-	</div>
-	<div class="container overflow-hidden" style="max-width: 100vw !important;">
-		<div class="row justify-content-center">
-			<div class="col-md-4" style="padding-left: 2rem">
-				<img class=" " style="width: 20rem; height:20rem; position: absolute; z-index: 2; pointer-events: none;" src="<?php echo $rutaForma; ?>" alt="">
-				<div class="overflow-hidden" id="cropContainerPreload" style="width: 20rem; height: 20rem"></div>
-			</div>
-		</div>
-	</div>
-	<div class="container pt-5">
-		<div class="row">
-			<div class="col-12 text-center">
-				<a id="crop" href="#" class="btn btn-primary">Continuar</a>
-			</div>
-		</div>
-	</div>
 
 	<?php
-		} else {
+	//Aquí validamos la variable para saber si existen los datos de la imagen en la cookie.
+	if ($imagenExiste) {
 	?>
-	<div class="container pt-5">
-		<div class="row justify-content-center">
-			<div class="col-md-6 text-center">
-				<h2>
-					Imagen no encontrada, da click en continuar para realizar un nuevo diseño.
-				</h2>
-				<br> <br>
-				<a href="/" class="btn btn-primary">Continuar</a>
+		<div class="container mt-3 mt-md-0 p-5 overflow-hidden card" style="border-radius: 50px; box-shadow: 0px 0px 5px lightgray;">
+			<div class="row">
+				<div class="col-12 text-center">
+					<h2>Ajuste su imagen, y de click en continuar.</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center pt-4">
+				<div class="col-lg-4">
+					<img class="" style="margin-right: 0 !important; width: 20rem; height:20rem; position: absolute; z-index: 2; pointer-events: none;" src="<?php echo $rutaForma; ?>" alt="Forma Seleccionada">
+					<div class=" overflow-hidden" id="cropContainerPreload" style="width: 20rem; height: 20rem;"></div>
+				</div>
+			</div>
+			<div class="row pt-4 justify-content-center">
+				<div class="col-md-4 text-center">
+					<a id="crop" href="#" class="btn btn-primary py-3 w-100 boton-rojo">Continuar</a>
+				</div>
 			</div>
 		</div>
-	</div>
+
 	<?php
-		}
+	} else {
+		//Aquí, ya sabemos que no existe la imagen en la cookie, o ni siquiera existe la cookie
+		//Vamos a mostrar el mensaje de imagen no encontrada, pero quitamos la cookie en caso que exista.
+		//De todos modos vamos a regresar al inicio de los pasos.
+		unset($_COOKIE['seleccion']);
+	?>
+		<div class="container p-5">
+			<div class="row justify-content-center">
+				<div class="card col-md-6 text-center p-5" style="box-shadow: 0px 0px 5px lightgray; border-radius: 50px;">
+					<h2>
+						Imagen no encontrada, da click en continuar para realizar un nuevo diseño.
+					</h2>
+					<br> <br>
+					<div class="row justify-content-center">
+						<div class="col-md-6">
+							<a href="/crear" class="btn btn-primary py-3 w-100 boton-rojo">Continuar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php
+	}
 	?>
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -96,12 +126,6 @@ if (isset($_COOKIE["seleccion"])) {
 	<script src="assets/js/jquery.mousewheel.min.js"></script>
 	<script src="croppic.js"></script>
 	<script src="assets/js/main.js"></script>
-	<?php
-	$data = json_decode($_COOKIE['seleccion'], true);
-	$x1 = (strftime("%Y/%m", strtotime(($data['fecha']))));
-	$x2 = $data['fotoCod'];
-	$ruta = 'upload/pedidos/' . $x1 . '/' . $x2 . '.jpg';
-	?>
 	<script>
 		var croppicContainerPreloadOptions = {
 			uploadUrl: 'img_save_to_file.php',
@@ -136,7 +160,9 @@ if (isset($_COOKIE["seleccion"])) {
 			}
 		}
 		var cropContainerPreload = new Croppic('cropContainerPreload', croppicContainerPreloadOptions);
-		crop.onclick = function(){ cropContainerPreload.crop();}
+		crop.onclick = function() {
+			cropContainerPreload.crop();
+		}
 	</script>
 </body>
 

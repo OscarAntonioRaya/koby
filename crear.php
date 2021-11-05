@@ -5,165 +5,97 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_COOKIE["seleccion"])) {
-  //$pasos = 1;
-}
-
-//PRIMER PASO
-//PRIMER PASO
-//RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
-if ((isset($_REQUEST['tex']) & (isset($_REQUEST['tex'])))) {
-  extract($_REQUEST);
-  $pasos = 2;
-  $materialData = $db->getAllRecords('pbMateriales', '*', 'AND id="' . $tex . '" LIMIT 1')[0];
-  $seleccion = array(
-    "texId"    => $materialData['id'],
-    "texNom"   => $materialData['nombre'],
-  );
-  //Y REESCRIBIMOS LA COOKIE DE 1 HORA
-  //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
-  setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-  header('Location: /crear?tex2=' . $materialData['id'] . '');
-  exit;
-}
-//PRIMER PASO
-//PRIMER PASO
-//RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
-if ((isset($_REQUEST['tex2']) & (isset($_REQUEST['tex2'])))) {
-  extract($_REQUEST);
-  $pasos = 2;
+if (isset($_COOKIE["seleccion"])) {
   $data = json_decode($_COOKIE['seleccion'], true);
-  $seleccion = array(
-    "texId"    => $data['texId'],
-    "texNom"   => $data['texNom'],
-  );
-  //Y REESCRIBIMOS LA COOKIE DE 1 HORA
-  //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
-  setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-}
-//SEGUNDO PASO
-//SEGUNDO PASO
-//RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
-if ((isset($_REQUEST['form']) & (isset($_REQUEST['form'])))) {
-  extract($_REQUEST);
-  $pasos = 3;
-  $materialData = $db->getAllRecords('pbFormas', '*', 'AND id="' . $form . '" LIMIT 1')[0];
-  $data = json_decode($_COOKIE['seleccion'], true);
-  $seleccion = array(
-    "texId"    => $data['texId'],
-    "texNom"   => $data['texNom'],
-    "forId"    => $materialData['id'],
-    "forNom"   => $materialData['nombre'],
-    "forImg"   => $materialData['forma'],
-    "forFr"    => $materialData['fr'],
-  );
-  //Y REESCRIBIMOS LA COOKIE DE 1 HORA
-  //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
-  setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-  header('Location: /crear?formSel=' . $materialData['id'] . '');
-  exit;
-}
-//SEGUNDO PASO
-//SEGUNDO PASO
-//RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
-if ((isset($_REQUEST['formSel']) & (isset($_REQUEST['formSel'])))) {
-  extract($_REQUEST);
-  $pasos = 3;
-  $data = json_decode($_COOKIE['seleccion'], true);
-  $seleccion = array(
-    "texId"    => $data['texId'],
-    "texNom"   => $data['texNom'],
-    "forId"    => $data['forId'],
-    "forNom"   => $data['forNom'],
-    "forImg"   => $data['forImg'],
-    "forFr"    => $data['forFr'],
-  );
-  //Y REESCRIBIMOS LA COOKIE DE 1 HORA
-  //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
-  setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-}
-//TERCER PASO
-//TERCER PASO
-//RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
-if ((isset($_REQUEST['med']) & (isset($_REQUEST['med'])))) {
-  extract($_REQUEST);
-  $pasos = 4;
-  $tarifaData = $db->getAllRecords('pbTarifas', '*', 'AND id="' . $med . '" LIMIT 1')[0];
-  $tamSel = $db->getAllRecords('pbTiposMedidas', '*', 'AND id="' . $tarifaData['tipoMedida'] . '" LIMIT 1')[0];
-  $data = json_decode($_COOKIE['seleccion'], true);
-  $seleccion = array(
-    "texId"     => $data['texId'],
-    "texNom"    => $data['texNom'],
-    "forId"     => $data['forId'],
-    "forNom"    => $data['forNom'],
-    "forImg"    => $data['forImg'],
-    "forFr"     => $data['forFr'],
-    "tarId"     => $tarifaData['id'],
-    "tarPrecio" => $tarifaData['precio'],
-    "tarTam"    => $tamSel['nombre'],
-  );
-  //Y REESCRIBIMOS LA COOKIE DE 1 HORA
-  //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
-  setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-  header('Location: /crear?tarSel=' . $tarifaData['id'] . '');
-  exit;
-}
-//TERCER PASO
-//TERCER PASO
-//RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
-if ((isset($_REQUEST['tarSel']) & (isset($_REQUEST['tarSel'])) & (!isset($_REQUEST['submit'])))) {
-  extract($_REQUEST);
-  $pasos = 4;
-  $data = json_decode($_COOKIE['seleccion'], true);
-  $seleccion = array(
-    "texId"     => $data['texId'],
-    "texNom"    => $data['texNom'],
-    "forId"     => $data['forId'],
-    "forNom"    => $data['forNom'],
-    "forImg"    => $data['forImg'],
-    "forFr"     => $data['forFr'],
-    "tarId"     => $data['tarId'],
-    "tarPrecio" => $data['tarPrecio'],
-    "tarTam"    => $data['tarTam'],
-  );
-  //Y REESCRIBIMOS LA COOKIE DE 1 HORA
-  //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
-  setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-}
-if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
-  extract($_REQUEST);
-  $pasos = 5;
-  if (($_FILES['thumb']['tmp_name']) == "") {
-    setcookie("msg", "basic", time() + 2, "/");
-    header('location: /crear?tarSel=' . $data['tarId'] . '');
+  //Primer paso
+  //Primer paso
+  //Primer paso
+  //Primer paso
+  if ((isset($_REQUEST['tex2']) & (isset($_REQUEST['tex2'])))) {
+    extract($_REQUEST);
+    $pasos = 2;
+    $data = json_decode($_COOKIE['seleccion'], true);
+    $seleccion = array(
+      "texId"    => $data['texId'],
+      "texNom"   => $data['texNom'],
+    );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
+    setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+  } 
+  //SEGUNDO PASO
+  //SEGUNDO PASO
+  //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
+  if ((isset($_REQUEST['form']) & (isset($_REQUEST['form'])))) {
+    extract($_REQUEST);
+    $pasos = 3;
+    $materialData = $db->getAllRecords('pbFormas', '*', 'AND id="' . $form . '" LIMIT 1')[0];
+    $data = json_decode($_COOKIE['seleccion'], true);
+    $seleccion = array(
+      "texId"    => $data['texId'],
+      "texNom"   => $data['texNom'],
+      "forId"    => $materialData['id'],
+      "forNom"   => $materialData['nombre'],
+      "forImg"   => $materialData['forma'],
+      "forFr"    => $materialData['fr'],
+    );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
+    setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+    header('Location: /crear?formSel=' . $materialData['id'] . '');
     exit;
-  } else {
-    $fecha = date("Y-m-d H:i:s");
-    $mesr = strftime("%m");
-    $anor = strftime("%Y");
-    if (!empty($_FILES['thumb']['tmp_name'])) {
-      $thumb = $_FILES['thumb']['tmp_name']; //DEFINIMOS LA VARIABLE THUMB YA SABEMOS QUE SI SE CARGÓ UNA FOTO
-      if ($_FILES['thumb']['type'] !== 'image/jpeg') {
-        setcookie("msg", "fnv", time() + 2, "/");
-        header('location: /crear?tarSel=' . $data['tarId'] . '');
-        exit;
-      }
-      //if (($_FILES['thumb']['size']) > 1000000) {
-      //  setcookie("msg", "fnvz", time() + 2, "/");
-      //  header('location: /crear?tarSel=' . $data['tarId'] . '');
-      //  exit;
-      //}
-      $codigo = GeraHash(10); //LO USAMOS PARA EL NOMBRE DE LA FOTO
-      $ruta = 'upload/pedidos/' . $anor . '/' . $mesr . '';
-      //SI LA CARPETA NO EXISTE LA CREAMOS
-      if (!file_exists($ruta)) {
-        mkdir($ruta, 0777, true);
-      }
-      //SUBIMOS LA FOTO EN LA CARPETA EXISTENTE O LA CREADA
-      $archivo_subido = '' . $ruta . '/' . $codigo . '.jpg';
-      move_uploaded_file($thumb, $archivo_subido);
-    }
-    $pasos = 5;
+  }
+  //SEGUNDO PASO
+  //SEGUNDO PASO
+  //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
+  if ((isset($_REQUEST['formSel']) & (isset($_REQUEST['formSel'])))) {
+    extract($_REQUEST);
+    $pasos = 3;
+    $data = json_decode($_COOKIE['seleccion'], true);
+    $seleccion = array(
+      "texId"    => $data['texId'],
+      "texNom"   => $data['texNom'],
+      "forId"    => $data['forId'],
+      "forNom"   => $data['forNom'],
+      "forImg"   => $data['forImg'],
+      "forFr"    => $data['forFr'],
+    );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
+    setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+  }
+  //TERCER PASO
+  //TERCER PASO
+  //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
+  if ((isset($_REQUEST['med']) & (isset($_REQUEST['med'])))) {
+    extract($_REQUEST);
+    $pasos = 4;
+    $tarifaData = $db->getAllRecords('pbTarifas', '*', 'AND id="' . $med . '" LIMIT 1')[0];
+    $tamSel = $db->getAllRecords('pbTiposMedidas', '*', 'AND id="' . $tarifaData['tipoMedida'] . '" LIMIT 1')[0];
+    $data = json_decode($_COOKIE['seleccion'], true);
+    $seleccion = array(
+      "texId"     => $data['texId'],
+      "texNom"    => $data['texNom'],
+      "forId"     => $data['forId'],
+      "forNom"    => $data['forNom'],
+      "forImg"    => $data['forImg'],
+      "forFr"     => $data['forFr'],
+      "tarId"     => $tarifaData['id'],
+      "tarPrecio" => $tarifaData['precio'],
+      "tarTam"    => $tamSel['nombre'],
+    );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
+    setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+    header('Location: /crear?tarSel=' . $tarifaData['id'] . '');
+    exit;
+  }
+  //TERCER PASO
+  //TERCER PASO
+  //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
+  if ((isset($_REQUEST['tarSel']) & (isset($_REQUEST['tarSel'])) & (!isset($_REQUEST['submit'])))) {
+    extract($_REQUEST);
+    $pasos = 4;
     $data = json_decode($_COOKIE['seleccion'], true);
     $seleccion = array(
       "texId"     => $data['texId'],
@@ -175,21 +107,94 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
       "tarId"     => $data['tarId'],
       "tarPrecio" => $data['tarPrecio'],
       "tarTam"    => $data['tarTam'],
-      "fecha" => $fecha,
-      "fotoCod" => $codigo
     );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
     setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-    header('location: /ajustarimagen.php');
   }
-}
+  if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
+    extract($_REQUEST);
+    $pasos = 5;
+    if (($_FILES['thumb']['tmp_name']) == "") {
+      setcookie("msg", "basic", time() + 2, "/");
+      header('location: /crear?tarSel=' . $data['tarId'] . '');
+      exit;
+    } else {
+      $fecha = date("Y-m-d H:i:s");
+      $mesr = strftime("%m");
+      $anor = strftime("%Y");
+      if (!empty($_FILES['thumb']['tmp_name'])) {
+        $thumb = $_FILES['thumb']['tmp_name']; //DEFINIMOS LA VARIABLE THUMB YA SABEMOS QUE SI SE CARGÓ UNA FOTO
+        if ($_FILES['thumb']['type'] !== 'image/jpeg') {
+          setcookie("msg", "fnv", time() + 2, "/");
+          header('location: /crear?tarSel=' . $data['tarId'] . '');
+          exit;
+        }
+        //if (($_FILES['thumb']['size']) > 1000000) {
+        //  setcookie("msg", "fnvz", time() + 2, "/");
+        //  header('location: /crear?tarSel=' . $data['tarId'] . '');
+        //  exit;
+        //}
+        $codigo = GeraHash(10); //LO USAMOS PARA EL NOMBRE DE LA FOTO
+        $ruta = 'upload/pedidos/' . $anor . '/' . $mesr . '';
+        //SI LA CARPETA NO EXISTE LA CREAMOS
+        if (!file_exists($ruta)) {
+          mkdir($ruta, 0777, true);
+        }
+        //SUBIMOS LA FOTO EN LA CARPETA EXISTENTE O LA CREADA
+        $archivo_subido = '' . $ruta . '/' . $codigo . '.jpg';
+        move_uploaded_file($thumb, $archivo_subido);
+      }
+      $pasos = 5;
+      $data = json_decode($_COOKIE['seleccion'], true);
+      $seleccion = array(
+        "texId"     => $data['texId'],
+        "texNom"    => $data['texNom'],
+        "forId"     => $data['forId'],
+        "forNom"    => $data['forNom'],
+        "forImg"    => $data['forImg'],
+        "forFr"     => $data['forFr'],
+        "tarId"     => $data['tarId'],
+        "tarPrecio" => $data['tarPrecio'],
+        "tarTam"    => $data['tarTam'],
+        "fecha" => $fecha,
+        "fotoCod" => $codigo
+      );
+      setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+      header('location: /ajustarimagen.php');
+    }
+  }
+} else {
+  //PRIMER PASO
+  //PRIMER PASO
+  //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
+  if ((isset($_REQUEST['tex']) & (isset($_REQUEST['tex'])))) {
+    extract($_REQUEST);
+    $pasos = 2;
+    $materialData = $db->getAllRecords('pbMateriales', '*', 'AND id="' . $tex . '" LIMIT 1')[0];
+    $seleccion = array(
+      "texId"    => $materialData['id'],
+      "texNom"   => $materialData['nombre'],
+    );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
+    setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+    header('Location: /crear?tex2=' . $materialData['id'] . '');
+    exit;
+  } else {
+      $pasos = 1;
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <?php
   require_once($_SERVER["DOCUMENT_ROOT"] . "/modulos/head.php");
   ?>
 </head>
+
 <body>
   <?php
   if (!isset($pasos)) {
@@ -211,7 +216,6 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
           <div class="columns is-vcentered">
             <?php
             if (isset($pasos)) {
-              $data = json_decode($_COOKIE['seleccion'], true);
               if ($pasos == 2) {
                 //PRIMER PASO ACEPTADO
                 //PRIMER PASO ACEPTADO
@@ -219,7 +223,7 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                 //PRIMER PASO ACEPTADO
                 //PRIMER PASO ACEPTADO
                 $formaData = $db->getAllRecords('pbFormas', '*', ' ORDER BY nombre DESC');
-            ?>
+              ?>
                 <div class="column is-12">
                   <div style="max-width: 1200px;" class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
                     <div class="head">
@@ -316,6 +320,7 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                     position: relative;
                     width: 225px;
                   }
+
                   .js .input-file-trigger {
                     display: block;
                     padding: 14px;
@@ -325,6 +330,7 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                     transition: all .4s;
                     cursor: pointer;
                   }
+
                   .js .input-file {
                     position: absolute;
                     top: 0;
@@ -334,6 +340,7 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                     padding: 14px 0;
                     cursor: pointer;
                   }
+
                   .js .input-file:hover+.input-file-trigger,
                   .js .input-file:focus+.input-file-trigger,
                   .js .input-file-trigger:hover,
@@ -341,28 +348,34 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                     background: #d60021;
                     color: #d60021;
                   }
+
                   .file-return {
                     margin: 0;
                   }
+
                   .file-return:not(:empty) {
                     margin: 1em 0;
                   }
+
                   .js .file-return {
                     font-style: italic;
                     font-size: .9em;
                     font-weight: bold;
                   }
+
                   .js .file-return:not(:empty):before {
                     content: "Selected file: ";
                     font-style: normal;
                     font-weight: normal;
                   }
+
                   /* Useless styles, just for demo styles */
                   body {
                     font-family: "Open sans", "Segoe UI", "Segoe WP", Helvetica, Arial, sans-serif;
                     color: #7F8C9A;
                     background: #FCFDFD;
                   }
+
                   h1,
                   h2 {
                     margin-bottom: 5px;
@@ -370,27 +383,33 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                     text-align: center;
                     color: #aaa;
                   }
+
                   h2 {
                     margin: 5px 0 2em;
                     color: #1ABC9C;
                   }
+
                   form {
                     width: 225px;
                     margin: 0 auto;
                     text-align: center;
                   }
+
                   h2+P {
                     text-align: center;
                   }
+
                   .txtcenter {
                     margin-top: 4em;
                     font-size: .9em;
                     text-align: center;
                     color: #aaa;
                   }
+
                   .copy {
                     margin-top: 2em;
                   }
+
                   .copy a {
                     text-decoration: none;
                     color: #1ABC9C;
@@ -443,42 +462,39 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
                 //CUARTO PASO ACEPTADO
                 //CUARTO PASO ACEPTADO
                 //CUARTO PASO ACEPTADO
-              }
-            } else {
-              //PASO 1
-              //PASO 1
-              //PASO 1
-              //PASO 1
-              //PASO 1
-              //PASO 1
-              //PASO 1
-              $materialData = $db->getAllRecords('pbMateriales', '*', ' ORDER BY nombre DESC');
+              } else if($pasos == 1){
+                //PASO 1
+                //PASO 1
+                //PASO 1
+                //PASO 1
+                $materialData = $db->getAllRecords('pbMateriales', '*', ' ORDER BY nombre DESC');
               ?>
-              <div class="column is-12">
-                <div class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
-                  <div class="head">
-                    <h2 style="text-align: center;" class="title is-5">
-                      Selecciona una textura
-                    </h2>
-                    <div style="text-align: center;" class="columns is-vcentered">
-                      <?php
-                      if (count($materialData) > 0) {
-                        $y  =  '';
-                        foreach ($materialData as $material) {
-                      ?>
-                          <div class="column is-4">
-                            <a href="/crear?tex=<?php echo ($material['id']) ?>"><img src="/upload/texturas/<?php echo (strftime("%Y/%m", strtotime(($material['fr'])))); ?>/<?php echo ($material['textura']) ?>.jpg" alt="<?php echo ($material['nombre']) ?>"></a>
-                            <h4><?php echo ($material['nombre']) ?></h4>
-                          </div>
-                      <?php
+                <div class="column is-12">
+                  <div class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
+                    <div class="head">
+                      <h2 style="text-align: center;" class="title is-5">
+                        Selecciona una textura
+                      </h2>
+                      <div style="text-align: center;" class="columns is-vcentered">
+                        <?php
+                        if (count($materialData) > 0) {
+                          $y  =  '';
+                          foreach ($materialData as $material) {
+                        ?>
+                            <div class="column is-4">
+                              <a href="/crear?tex=<?php echo ($material['id']) ?>"><img src="/upload/texturas/<?php echo (strftime("%Y/%m", strtotime(($material['fr'])))); ?>/<?php echo ($material['textura']) ?>.jpg" alt="<?php echo ($material['nombre']) ?>"></a>
+                              <h4><?php echo ($material['nombre']) ?></h4>
+                            </div>
+                        <?php
+                          }
                         }
-                      }
-                      ?>
+                        ?>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
             <?php
+              }
             }
             ?>
           </div>
@@ -694,4 +710,5 @@ if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
   </script>
   <script src="/js/bundle.js"></script>
 </body>
+
 </html>

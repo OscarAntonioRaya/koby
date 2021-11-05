@@ -4,6 +4,7 @@ if (isset($_COOKIE["seleccion"])) {
 	$x1 = (strftime("%Y/%m", strtotime(($data['forFr']))));
 	$x2 = $data['forImg'];
 	$rutaForma = 'upload/formas/' . $x1 . '/' . $x2 . '.png';
+	$imagenExiste = true;
 }
 ?>
 <!DOCTYPE html>
@@ -43,6 +44,10 @@ if (isset($_COOKIE["seleccion"])) {
 			</div>
 		</div>
 	</div>
+	
+	<?php
+		if ($imagenExiste) {
+	?>
 	<div class="container pt-md-0 py-5 overflow-hidden" style="max-width: 100vw !important;">
 		<div class="row">
 			<div class="col-12 text-center">
@@ -65,6 +70,24 @@ if (isset($_COOKIE["seleccion"])) {
 			</div>
 		</div>
 	</div>
+
+	<?php
+		} else {
+	?>
+	<div class="container pt-5">
+		<div class="row justify-content-center">
+			<div class="col-md-6 text-center">
+				<h2>
+					Imagen no encontrada, da click en continuar para realizar un nuevo diseño.
+				</h2>
+				<br> <br>
+				<a href="/" class="btn btn-primary">Continuar</a>
+			</div>
+		</div>
+	</div>
+	<?php
+		}
+	?>
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -103,7 +126,7 @@ if (isset($_COOKIE["seleccion"])) {
 			},
 			onAfterImgCrop: function() {
 				console.log('onAfterImgCrop')
-				window.location = ('/?img=' + response.url);
+				window.location = ('/pedido.php?img=' + response.url);
 			},
 			onReset: function() {
 				console.log('onReset')

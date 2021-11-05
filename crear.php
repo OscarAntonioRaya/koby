@@ -4,6 +4,11 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/include/funciones.php");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+if (!isset($_COOKIE["seleccion"])) {
+  //$pasos = 1;
+}
+
 //PRIMER PASO
 //PRIMER PASO
 //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL

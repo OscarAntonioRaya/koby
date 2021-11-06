@@ -4,16 +4,16 @@ if (isset($_COOKIE["seleccion"])) {
 
 	//Primero revisamos si existe en la cookie los datos de la forma y la imagen elegidas.
 	//Si existen, creamos la ruta de la imagen y e la forma.
-	//Además creams la variable $imagenExiste para validaren el html, si mostramos Croppic o
+	//Además creams la variable $imagenExiste para validar en el html si mostramos Croppic o
 	//mostramos el mensaje de que la imagen no existe
 	if (isset($data['forFr']) && isset($data['forImg']) && isset($data['fecha']) && isset($data['fotoCod'])) {
-		$x1 = (strftime("%Y/%m", strtotime(($data['forFr']))));
-		$x2 = $data['forImg'];
-		$rutaForma = 'upload/formas/' . $x1 . '/' . $x2 . '.png';
+		$fecha = (strftime("%Y/%m", strtotime(($data['forFr']))));
+		$nombre = $data['forImg'];
+		$rutaForma = 'upload/formas/' . $fecha . '/' . $nombre . '.png';
 
-		$x1 = (strftime("%Y/%m", strtotime(($data['fecha']))));
-		$x2 = $data['fotoCod'];
-		$ruta = 'upload/pedidos/' . $x1 . '/' . $x2 . '.jpg';
+		$fecha = (strftime("%Y/%m", strtotime(($data['fecha']))));
+		$nombre = $data['fotoCod'];
+		$ruta = 'upload/pedidos/' . $fecha . '/' . $nombre . '.jpg';
 
 		$imagenExiste = true;
 	} else {
@@ -46,8 +46,12 @@ if (isset($_COOKIE["seleccion"])) {
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 	<style>
+		body {
+			background-color: #ededed;
+		}
+
 		.boton-rojo {
-			background-color: #ff2d3e; 
+			background-color: #ff2d3e;
 			border-color: #ff2d3e;
 		}
 
@@ -58,14 +62,18 @@ if (isset($_COOKIE["seleccion"])) {
 	</style>
 </head>
 
-<body style="background-color: #ededed !important;">
+<body>
 	<div class="container-fluid overflow-hidden" style="max-width: 100vw !important;">
 		<div class="row justify-content-center justify-content-md-start">
 			<div class="col-md-1 d-md-block d-none">
-				<img src="logo.png" alt="logo" class="img-fluid">
+				<a href="/">
+					<img src="logo.png" alt="logo" class="img-fluid">
+				</a>
 			</div>
 			<div class="col-4 col-md-1 d-block d-md-none text-center pt-5">
-				<img src="logo.png" alt="logo" class="img-fluid">
+				<a href="/">
+					<img src="logo.png" alt="logo" class="img-fluid">
+				</a>
 			</div>
 		</div>
 	</div>
@@ -74,10 +82,10 @@ if (isset($_COOKIE["seleccion"])) {
 	//Aquí validamos la variable para saber si existen los datos de la imagen en la cookie.
 	if ($imagenExiste) {
 	?>
-		<div class="container mt-3 mt-md-0 p-5 overflow-hidden card" style="border-radius: 50px; box-shadow: 0px 0px 5px lightgray;">
+		<div class="container mt-3 mt-md-0 py-4 overflow-hidden card" style="border-radius: 50px; box-shadow: 0px 0px 5px lightgray;">
 			<div class="row">
 				<div class="col-12 text-center">
-					<h2>Ajuste su imagen, y de click en continuar.</h2>
+					<h3>Ajuste su imagen, y de click en continuar.</h3>
 				</div>
 			</div>
 			<div class="row justify-content-center pt-4">
@@ -150,7 +158,7 @@ if (isset($_COOKIE["seleccion"])) {
 			},
 			onAfterImgCrop: function() {
 				console.log('onAfterImgCrop')
-				window.location = ('/pedido.php?img=' + response.url);
+				window.location = ('/detallespedido.html?img=' + response.url);
 			},
 			onReset: function() {
 				console.log('onReset')

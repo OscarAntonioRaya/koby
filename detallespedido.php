@@ -1,8 +1,11 @@
 <?php
+if (isset($_REQUEST)) {
+  extract($_REQUEST);
+  $ruta = $img;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<!-- Mirrored from listkit.cssninja.io/account-personal.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Oct 2021 21:11:56 GMT -->
 <!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
@@ -414,7 +417,7 @@
               <!--Categories-->
               <div class="account-categories">
                 <!--Category-->
-                <a href="account-personal.html" class="card mb-5">
+                <a href="/ajustarimagen.php" class="card mb-5">
                   <div class="card-content">
                     <h3 class="title is-6 has-space">
                       <span class="icon-text">
@@ -424,9 +427,9 @@
                         </span>
                       </span>
                     </h3>
+                    <img src="<?php echo $ruta; ?>" alt="recorte" class="img-fluid" style="border: 1px solid lightgray; border-radius: 15px;">
                     <p class="stressed-1 is-md">
-                      Update your password and secure your account. You can
-                      also enable two-factor authentication.
+                      Imagen solo de referencia, resultado actual con precisión será enviado.
                     </p>
                   </div>
                 </a>
@@ -438,15 +441,14 @@
                     </div>
                     <h3 class="title is-6 has-space">
                       <span class="icon-text">
-                        <span>Payments</span>
+                        <span>FAQ</span>
                         <span class="icon">
                           <i data-feather="chevron-right"></i>
                         </span>
                       </span>
                     </h3>
                     <p class="stressed-1 is-md">
-                      View your payments and your transactions. Also view
-                      coupon codes, gift cards and tax reports.
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad nemo tempora sit perspiciatis! Id accusamus autem, maxime, deserunt amet earum expedita repudiandae sit ipsam nobis aperiam culpa consequatur velit. A?
                     </p>
                   </div>
                 </a>

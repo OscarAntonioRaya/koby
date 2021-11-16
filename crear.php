@@ -8,6 +8,21 @@ error_reporting(E_ALL);
 if (isset($_COOKIE["seleccion"])) {
   $data = json_decode($_COOKIE['seleccion'], true);
   $flag = false;
+
+  if ((isset($_REQUEST['tex']) & (isset($_REQUEST['tex'])))) {
+    extract($_REQUEST);
+    $pasos = 2;
+    $materialData = $db->getAllRecords('pbMateriales', '*', 'AND id="' . $tex . '" LIMIT 1')[0];
+    $seleccion = array(
+      "texId"    => $materialData['id'],
+      "texNom"   => $materialData['nombre'],
+    );
+    //Y REESCRIBIMOS LA COOKIE DE 1 HORA
+    //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
+    setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+    header('Location: /crear?tex2=' . $materialData['id'] . '');
+    exit;
+  }
   //Primer paso
   if ((isset($_REQUEST['tex2']) & (isset($_REQUEST['tex2'])))) {
     extract($_REQUEST);
@@ -168,7 +183,6 @@ if (isset($_COOKIE["seleccion"])) {
   }
   
 } else {
-  $pasos = 1;
   //PRIMER PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
   if ((isset($_REQUEST['tex']) & (isset($_REQUEST['tex'])))) {
@@ -251,7 +265,7 @@ if (isset($_COOKIE["seleccion"])) {
                     </div>
                   </div>
                   <div style="margin-top: 15px;" class="has-text-centered">
-                    <a href="/crear" class="button is-primary mx-1">Volver</a>
+                    <a href="javascript:history.back();" class="button is-primary mx-1">Volver</a>
                   </div>
                 </div>
               <?php
@@ -303,7 +317,7 @@ if (isset($_COOKIE["seleccion"])) {
                     </div>
                   </div>
                   <div style="margin-top: 15px;" class="has-text-centered">
-                    <a href="/crear" class="button is-primary mx-1">Volver</a>
+                    <a href="javascript:history.back();" class="button is-primary mx-1">Volver</a>
                   </div>
                 </div>
               <?php

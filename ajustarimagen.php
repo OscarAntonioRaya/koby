@@ -158,7 +158,7 @@ if (isset($_COOKIE["seleccion"])) {
 			},
 			onAfterImgCrop: function() {
 				console.log('onAfterImgCrop')
-				window.location = ('/detallespedido.html?img=' + response.url);
+				window.location = ('/detallespedido.php?img=' + response.url);
 			},
 			onReset: function() {
 				console.log('onReset')

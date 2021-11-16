@@ -7,9 +7,7 @@ error_reporting(E_ALL);
 
 if (isset($_COOKIE["seleccion"])) {
   $data = json_decode($_COOKIE['seleccion'], true);
-  //Primer paso
-  //Primer paso
-  //Primer paso
+  $flag = false;
   //Primer paso
   if ((isset($_REQUEST['tex2']) & (isset($_REQUEST['tex2'])))) {
     extract($_REQUEST);
@@ -22,8 +20,8 @@ if (isset($_COOKIE["seleccion"])) {
     //Y REESCRIBIMOS LA COOKIE DE 1 HORA
     //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
     setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
-  } 
-  //SEGUNDO PASO
+    $flag = true;
+  }
   //SEGUNDO PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
   if ((isset($_REQUEST['form']) & (isset($_REQUEST['form'])))) {
@@ -46,7 +44,6 @@ if (isset($_COOKIE["seleccion"])) {
     exit;
   }
   //SEGUNDO PASO
-  //SEGUNDO PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
   if ((isset($_REQUEST['formSel']) & (isset($_REQUEST['formSel'])))) {
     extract($_REQUEST);
@@ -63,8 +60,8 @@ if (isset($_COOKIE["seleccion"])) {
     //Y REESCRIBIMOS LA COOKIE DE 1 HORA
     //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
     setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+    $flag = true;
   }
-  //TERCER PASO
   //TERCER PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
   if ((isset($_REQUEST['med']) & (isset($_REQUEST['med'])))) {
@@ -91,7 +88,6 @@ if (isset($_COOKIE["seleccion"])) {
     exit;
   }
   //TERCER PASO
-  //TERCER PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
   if ((isset($_REQUEST['tarSel']) & (isset($_REQUEST['tarSel'])) & (!isset($_REQUEST['submit'])))) {
     extract($_REQUEST);
@@ -111,6 +107,7 @@ if (isset($_COOKIE["seleccion"])) {
     //Y REESCRIBIMOS LA COOKIE DE 1 HORA
     //SI EL USUARIO REINICIA, SOBREESCRIBIMOS TODA LA COOKIE COMPLETA.
     setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
+    $flag = true;
   }
   if (isset($_REQUEST['submit']) and $_REQUEST['submit'] != "") {
     extract($_REQUEST);
@@ -163,9 +160,15 @@ if (isset($_COOKIE["seleccion"])) {
       setcookie("seleccion", json_encode($seleccion), time() + 3600, "/");
       header('location: /ajustarimagen.php');
     }
+    $flag = true;
   }
+
+  if (!$flag) {
+    header('location: /');
+  }
+  
 } else {
-  //PRIMER PASO
+  $pasos = 1;
   //PRIMER PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
   if ((isset($_REQUEST['tex']) & (isset($_REQUEST['tex'])))) {
@@ -217,10 +220,6 @@ if (isset($_COOKIE["seleccion"])) {
             <?php
             if (isset($pasos)) {
               if ($pasos == 2) {
-                //PRIMER PASO ACEPTADO
-                //PRIMER PASO ACEPTADO
-                //PRIMER PASO ACEPTADO
-                //PRIMER PASO ACEPTADO
                 //PRIMER PASO ACEPTADO
                 $formaData = $db->getAllRecords('pbFormas', '*', ' ORDER BY nombre DESC');
               ?>
@@ -309,10 +308,6 @@ if (isset($_COOKIE["seleccion"])) {
                 </div>
               <?php
               } else if ($pasos == 4) {
-                //TERCER PASO ACEPTADO
-                //TERCER PASO ACEPTADO
-                //TERCER PASO ACEPTADO
-                //TERCER PASO ACEPTADO
                 //TERCER PASO ACEPTADO
               ?>
                 <style>
@@ -457,11 +452,7 @@ if (isset($_COOKIE["seleccion"])) {
               <?php
               } else if ($pasos == 5) {
                 //CUARTO PASO ACEPTADO
-                //CUARTO PASO ACEPTADO
-                //CUARTO PASO ACEPTADO
-                //CUARTO PASO ACEPTADO
-                //CUARTO PASO ACEPTADO
-                //CUARTO PASO ACEPTADO
+
               } else if($pasos == 1){
                 //PASO 1
                 //PASO 1

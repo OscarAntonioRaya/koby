@@ -181,7 +181,6 @@ if (isset($_COOKIE["seleccion"])) {
   if (!$flag) {
     header('location: /');
   }
-  
 } else {
   //PRIMER PASO
   //RECORREMOS EL ARRAY PARA CONSEGUIR PRECIO SELECCIONADO EN EL
@@ -199,9 +198,9 @@ if (isset($_COOKIE["seleccion"])) {
     header('Location: /crear?tex2=' . $materialData['id'] . '');
     exit;
   } else {
-      $pasos = 1;
-    }
+    $pasos = 1;
   }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -229,35 +228,53 @@ if (isset($_COOKIE["seleccion"])) {
     <div class="hero is-fullheight is-grey is-bold has-form" data-background="https://dummyimage.com/1920x1080" data-demo-background="/img/crear.jpg">
       <div class="hero-overlay"></div>
       <div class="hero-body">
-        <div class="container">
-          <div class="columns is-vcentered">
+        <div class="container p-0">
+          <div class="columns is-vcentered p-0">
             <?php
             if (isset($pasos)) {
               if ($pasos == 2) {
                 //PRIMER PASO ACEPTADO
                 $formaData = $db->getAllRecords('pbFormas', '*', ' ORDER BY nombre DESC');
+                
+                //Guardamos el nombre del material
+                $nom = $data['texNom'];
+
+                //Contador para formas disponibles
+                $count = 0;
+
+                //Arreglo para guardar formas disponibles
+                $formas_disponibles;
+
+                //Recorremos para encontrar las formas disponibles
+                foreach ($formaData as $forma) {
+                  $formSel = $db->getAllRecords('pbTarifas', '*', ' AND forma="' . $forma['id'] . '" AND material="' . $data['texId'] . '" LIMIT 1');
+                  if (!empty($formSel)) {
+                    $formas_disponibles[$count] = $forma;
+                    $count++;
+                  }
+                }
+                $cantidad_de_formas = $count < 3 ? "card-form" : "";
+                $titulo = $count == 0 ?
+                  "Aún no tenemos formas disponibles para $nom, ¡esperalas pronto!" :
+                  "Selecciona una de las formas disponibles para <b>$nom</b>.";
+
               ?>
-                <div class="column is-12">
-                  <div style="max-width: 1200px;" class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
+                <div class="column is-12 is-vcentered">
+                  <div class="card <?php echo $cantidad_de_formas; ?> p-5 mt-6" style="border-radius: 25px;">
                     <div class="head">
-                      <h2 style="text-align: center;" class="title is-5">
-                        Selecciona una de las formas disponibles para <b><?php echo $data['texNom']; ?></b>.
+                      <h2 class="has-text-centered title is-5">
+                        <?php echo $titulo; ?>
                       </h2>
-                      <div style="text-align: center;" class="columns is-vcentered">
+                      <div class="has-text-centered columns is-vcentered">
                         <?php
-                        if (count($formaData) > 0) {
-                          $y  =  '';
-                          foreach ($formaData as $forma) {
-                            $formSel = $db->getAllRecords('pbTarifas', '*', ' AND forma="' . $forma['id'] . '" AND material="' . $data['texId'] . '" LIMIT 1');
-                            if (!empty($formSel)) {
-                              $y++;
+                        if ($count > 0) {
+                          foreach ($formas_disponibles as $formas_disponible) {
                         ?>
-                              <div class="column is-2">
-                                <a href="/crear?form=<?php echo ($forma['id']) ?>"><img src="/upload/formas/<?php echo (strftime("%Y/%m", strtotime(($forma['fr'])))); ?>/<?php echo ($forma['forma']) ?>.png" alt="<?php echo ($forma['nombre']) ?>"></a>
-                                <h4><?php echo ($forma['nombre']) ?></h4>
-                              </div>
+                            <div class="column">
+                              <a href="/crear?form=<?php echo ($formas_disponible['id']) ?>"><img src="/upload/formas/<?php echo (strftime("%Y/%m", strtotime(($formas_disponible['fr'])))); ?>/<?php echo ($formas_disponible['forma']) ?>.png" alt="<?php echo ($formas_disponible['nombre']) ?>"></a>
+                              <h4><?php echo ($formas_disponible['nombre']) ?></h4>
+                            </div>
                         <?php
-                            }
                           }
                         }
                         ?>
@@ -271,13 +288,9 @@ if (isset($_COOKIE["seleccion"])) {
               <?php
               } else if ($pasos == 3) {
                 //SEGUNDO PASO ACEPTADO
-                //SEGUNDO PASO ACEPTADO
-                //SEGUNDO PASO ACEPTADO
-                //SEGUNDO PASO ACEPTADO
-                //SEGUNDO PASO ACEPTADO
                 $PrintBlockData = $db->getAllRecords('pbTarifas', '*', 'AND material="' . $data['texId'] . '" AND forma="' . $data['forId'] . '" ORDER BY id ASC');
               ?>
-                <div class="column is-12">
+                <div class="column is-12 mt-6">
                   <div class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
                     <div class="head">
                       <h2 style="text-align: center;" class="title is-5">
@@ -424,7 +437,7 @@ if (isset($_COOKIE["seleccion"])) {
                     color: #1ABC9C;
                   }
                 </style>
-                <div class="column is-12">
+                <div class="column is-12 mt-6">
                   <div class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
                     <div class="head">
                       <h2 style="text-align: center;" class="title is-5">
@@ -439,6 +452,9 @@ if (isset($_COOKIE["seleccion"])) {
                           <p class="file-return"></p>
                           <div style="margin-top: 50px;">
                             <button class="button is-primary mx-1" type="submit" name="submit" value="Submit">Subir</button>
+                          </div>
+                          <div style="margin-top: 15px;" class="has-text-centered">
+                            <a href="javascript:history.back();" class="button is-primary mx-1">Volver</a>
                           </div>
                         </form>
                       </div>
@@ -465,17 +481,16 @@ if (isset($_COOKIE["seleccion"])) {
                 </script>
               <?php
               } else if ($pasos == 5) {
-                //CUARTO PASO ACEPTADO
-
-              } else if($pasos == 1){
+                //Acá no hay nada xD
+              } else if ($pasos == 1) {
                 //PASO 1
                 //PASO 1
                 //PASO 1
                 //PASO 1
                 $materialData = $db->getAllRecords('pbMateriales', '*', ' ORDER BY nombre DESC');
               ?>
-                <div class="column is-12">
-                  <div class="card card-form" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
+                <div class="column is-12 mt-6">
+                  <div class="card card-form mt-6" data-x-data="initHeroCreateListingForm()" data-x-init="initSelects()">
                     <div class="head">
                       <h2 style="text-align: center;" class="title is-5">
                         Selecciona una textura
@@ -498,7 +513,7 @@ if (isset($_COOKIE["seleccion"])) {
                     </div>
                   </div>
                 </div>
-            <?php
+              <?php
               }
             }
             ?>

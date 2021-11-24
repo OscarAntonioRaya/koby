@@ -6,8 +6,7 @@ if (isset($_REQUEST)) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 <head>
   <meta charset="UTF-8" />
@@ -335,43 +334,6 @@ if (isset($_REQUEST)) {
           <div class="columns b-flex-tablet-p">
             <div class="column is-7">
               <form action="#">
-                <div class="mb-4">
-                  <h2 class="title is-5 is-bold">General</h2>
-                  <h4 class="subtitle is-6">
-                    Su información general
-                  </h4>
-                </div>
-
-                <!--Setting block-->
-                <article class="media">
-                  <div class="media-content">
-                    <span class="is-block">Nombre</span>
-                    <input name="nombre" type="text" class="input" placeholder="Ingrese su nombre" />
-                  </div>
-                </article>
-                <!--Setting block
-                  <article class="media" style="display: none !important;">
-                    <div class="media-content">
-                      <span class="is-block">Género</span>
-                      <input name="genero" type="text" class="input" placeholder="Ingrese su género" />
-                    </div>
-                  </article>
-                  -->
-                <!--Setting block-->
-                <article class="media">
-                  <div class="media-content">
-                    <span class="is-block">Correo Electrónico</span>
-                    <input name="email" type="email" class="input" placeholder="Ingrese su correo electrónico" />
-                  </div>
-                </article>
-                <!--Setting block-->
-                <article class="media">
-                  <div class="media-content">
-                    <span class="is-block">Fecha de nacimiento</span>
-                    <input name="fecha" type="date" class="input" />
-                  </div>
-                </article>
-
                 <div>
                   <div class="mt-6 mb-4">
                     <h2 class="title is-5 is-bold">Información de Envío</h2>
@@ -379,19 +341,37 @@ if (isset($_REQUEST)) {
                       Detalles para hacerle llegar su nuevo producto
                     </h4>
                   </div>
-
-                  <!--Setting block-->
                   <article class="media">
                     <div class="media-content">
-                      <span class="is-block">Télefono de contacto</span>
-                      <input name="tel" type="tel" class="input" placeholder="Ingrese su télefono de contacto más usado" />
+                      <span class="is-block">Correo Electrónico</span>
+                      <input name="email" type="email" class="input" placeholder="Ingrese su correo electrónico" />
                     </div>
                   </article>
                   <!--Setting block-->
                   <article class="media">
                     <div class="media-content">
-                      <span class="is-block">Dirección de envío</span>
-                      <input name="direccion1" type="text" class="input" placeholder="Ingrese su Calle, Colonia, Ciudad y Estado" />
+                      <span class="is-block">Nombre</span>
+                      <input name="nombre" type="text" class="input" placeholder="Ingrese su nombre" />
+                    </div>
+                  </article>
+                  <article class="media">
+                    <div class="media-content">
+                      <span class="is-block">Apellido</span>
+                      <input name="apellido" type="text" class="input" placeholder="Ingrese su apellido" />
+                    </div>
+                  </article>
+                  <!--Setting block-->
+                  <article class="media">
+                    <div class="media-content">
+                      <span class="is-block">Calle y número de casa</span>
+                      <input name="direccion1" type="text" class="input" placeholder="Ingrese su calle y número de casa" />
+                    </div>
+                  </article>
+                  <!--Setting block-->
+                  <article class="media">
+                    <div class="media-content">
+                      <span class="is-block">Apartamento, local, etc.</span>
+                      <input name="direccion2" type="text" class="input" placeholder="Ingrese su número interior" />
                     </div>
                   </article>
                   <!--Setting block-->
@@ -404,8 +384,44 @@ if (isset($_REQUEST)) {
                   <!--Setting block-->
                   <article class="media">
                     <div class="media-content">
-                      <span class="is-block">Referencias</span>
-                      <input name="referencias" type="text" class="input" placeholder="Indicaciones adicionales para su envío" />
+                      <span class="is-block">País</span>
+                      <select name="pais" id="pais" class="input" required>
+                        <option value="" selected disabled>Seleccione su país</option>
+                        <option value="1">México</option>
+                      </select>
+                    </div>
+                  </article>
+                  <!--Setting block-->
+                  <article class="media">
+                    <div class="media-content">
+                      <span class="is-block">Estado</span>
+                      <select name="estado" id="estado" class="input" required>
+                        <option value="" selected disabled>Seleccione su estado</option>
+                        <option value="1">Estado 1</option>
+                        <option value="2">Estado 2</option>
+                        <option value="3">Estado 3</option>
+                        <option value="4">Estado 4</option>
+                      </select>
+                    </div>
+                  </article>
+                  <!--Setting block-->
+                  <article class="media">
+                    <div class="media-content">
+                      <span class="is-block">Ciudad</span>
+                      <select name="ciudad" id="ciudad" class="input" required>
+                        <option value="" selected disabled>Seleccione su ciudad</option>
+                        <option value="1">Ciudad 1</option>
+                        <option value="2">Ciudad 2</option>
+                        <option value="3">Ciudad 3</option>
+                        <option value="4">Ciudad 4</option>
+                      </select>
+                    </div>
+                  </article>
+                  <!--Setting block-->
+                  <article class="media">
+                    <div class="media-content">
+                      <span class="is-block">Teléfono</span>
+                      <input name="tel" type="tel" class="input" placeholder="Ingrese su teléfono de contacto" />
                     </div>
                   </article>
                 </div>

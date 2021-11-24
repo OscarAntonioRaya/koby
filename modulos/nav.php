@@ -1,15 +1,9 @@
-<div
-  class="main-navigation-light"
-  data-x-data="initNavbarLight()"
-  data-x-on:scroll.window="scroll()"
-  data-x-on:mouseleave="megamenuOpened = false"
-  data-x-bind:class="{
+<div class="main-navigation-light" data-x-data="initNavbarLight()" data-x-on:scroll.window="scroll()" data-x-on:mouseleave="megamenuOpened = false" data-x-bind:class="{
         'is-scrolled': scrolled,
         '': !scrolled,
         'is-solid': megamenuOpened,
         '': !megamenuOpened,
-    }"
->
+    }">
   <div class="main-navigation--menu">
     <div class="container">
       <div class="main-navigation--menu-inner">
@@ -20,28 +14,19 @@
           </a>
         </div>
         <div class="center">
-          <div
-            class="navigation-link has-caret"
-            data-x-on:mouseover="megamenuOpened = true, openedMegamenu = 'megamenu-1'"
-          >
+          <div class="navigation-link has-caret" data-x-on:mouseover="megamenuOpened = true, openedMegamenu = 'megamenu-1'">
             <a class="is-flex is-align-items-center">
               <span>Events</span>
               <i data-feather="chevron-down"></i>
             </a>
           </div>
-          <div
-            class="navigation-link has-caret"
-            data-x-on:mouseover="megamenuOpened = true, openedMegamenu = 'megamenu-2'"
-          >
+          <div class="navigation-link has-caret" data-x-on:mouseover="megamenuOpened = true, openedMegamenu = 'megamenu-2'">
             <a class="is-flex is-align-items-center">
               <span>Trips</span>
               <i data-feather="chevron-down"></i>
             </a>
           </div>
-          <div
-            class="navigation-link has-caret"
-            data-x-on:mouseover="megamenuOpened = true, openedMegamenu = 'megamenu-3'"
-          >
+          <div class="navigation-link has-caret" data-x-on:mouseover="megamenuOpened = true, openedMegamenu = 'megamenu-3'">
             <a class="is-flex is-align-items-center">
               <span>Flats</span>
               <i data-feather="chevron-down"></i>
@@ -50,41 +35,16 @@
         </div>
         <div class="right">
           <div class="account-drop">
-            <button
-              data-x-on:click="openDrop('account-drop')"
-              data-x-on:click.away="closeDrop('account-drop')"
-            >
+            <button data-x-on:click="openDrop('account-drop')" data-x-on:click.away="closeDrop('account-drop')">
               <span class="image is-32x32">
-                <img
-                  data-x-show="$store.app.isLoggedIn === false"
-                  class="is-rounded"
-                  src="https://dummyimage.com/150x150"
-                  data-demo-src="img/photo/avatar/placeholder.png"
-                  alt=""
-                />
-                <img
-                  data-x-show="$store.app.isLoggedIn === true"
-                  class="is-rounded"
-                  src="https://dummyimage.com/150x150"
-                  data-demo-src="img/photo/avatar/19.jpg"
-                  alt=""
-                />
+                <img data-x-show="$store.app.isLoggedIn === false" class="is-rounded" src="https://dummyimage.com/150x150" data-demo-src="/img/photo/avatar/placeholder.png" alt="" />
+                <img data-x-show="$store.app.isLoggedIn === true" class="is-rounded" src="https://dummyimage.com/150x150" data-demo-src="/img/photo/avatar/19.jpg" alt="" />
               </span>
             </button>
             <div data-x-show.transition="accountDropOpened" class="drop-menu">
               <div class="drop-menu-inner">
-                <a
-                  href="login.html"
-                  data-x-show="$store.app.isLoggedIn === false"
-                  class="drop-menu-item is-heavy"
-                  >Sign In</a
-                >
-                <a
-                  href="signup.html"
-                  data-x-show="$store.app.isLoggedIn === false"
-                  class="drop-menu-item"
-                  >Register</a
-                >
+                <a href="login.html" data-x-show="$store.app.isLoggedIn === false" class="drop-menu-item is-heavy">Sign In</a>
+                <a href="signup.html" data-x-show="$store.app.isLoggedIn === false" class="drop-menu-item">Register</a>
               </div>
             </div>
           </div>
@@ -92,13 +52,10 @@
       </div>
     </div>
   </div>
-  <div
-    class="megamenu"
-    data-x-bind:class="{
+  <div class="megamenu" data-x-bind:class="{
       'is-active': megamenuOpened,
       '': !megamenuOpened,
-    }"
-  >
+    }">
     <!--Megamenu 1-->
     <div data-x-show="openedMegamenu === 'megamenu-1'" class="megamenu-inner">
       <button class="close-button" data-x-on:click="megamenuOpened = !megamenuOpened">
@@ -236,8 +193,8 @@
         </div>
       </div>
     </div>
-        <!--Megamenu 2-->
-      <div data-x-show="openedMegamenu === 'megamenu-3'" class="megamenu-inner">
+    <!--Megamenu 2-->
+    <div data-x-show="openedMegamenu === 'megamenu-3'" class="megamenu-inner">
       <button class="close-button" data-x-on:click="megamenuOpened = !megamenuOpened">
         <i data-feather="arrow-left"></i>
       </button>

@@ -427,7 +427,7 @@ if (isset($_REQUEST)) {
                         </span>
                       </span>
                     </h3>
-                    <img src="<?php echo $ruta; ?>" alt="recorte" class="img-fluid" style="border: 1px solid lightgray; border-radius: 15px;">
+                    <img src="<?php echo $ruta; ?>" alt="Imagen Recortada" class="img-fluid" style="border: 1px solid lightgray; border-radius: 15px;">
                     <p class="stressed-1 is-md">
                       Imagen solo de referencia, resultado actual con precisión será enviado.
                     </p>

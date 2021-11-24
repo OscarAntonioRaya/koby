@@ -5,15 +5,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 //AQUI COMIENZAN LAS REGLAS ESPECIALES POR USUARIOS
-//AQUI COMIENZAN LAS REGLAS ESPECIALES POR USUARIOS
-//AQUI COMIENZAN LAS REGLAS ESPECIALES POR USUARIOS
-//AQUI COMIENZAN LAS REGLAS ESPECIALES POR USUARIOS
 //ASIGNA EL NIVEL DE ACCESO
 $lvl = 2;
 require_once($_SERVER["DOCUMENT_ROOT"] . "/include/roles.php");
-//AQUI FINALIZAN LAS REGLAS ESPECIALES POR USUARIOS
-//AQUI FINALIZAN LAS REGLAS ESPECIALES POR USUARIOS
-//AQUI FINALIZAN LAS REGLAS ESPECIALES POR USUARIOS
 //AQUI FINALIZAN LAS REGLAS ESPECIALES POR USUARIOS
 ?>
 <!DOCTYPE html>
@@ -21,7 +15,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/include/roles.php");
 
 <head>
 	<meta charset="utf-8">
-	<title>Administrador <?php echo NAME_PROJECT; ?></title>
+	<title>Pedidos - Administrador <?php echo NAME_PROJECT; ?></title>
 	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 	<meta content="Premium Multipurpose Admin & Dashboard Template" name="description">
 	<meta content="" name="author">
@@ -68,6 +62,70 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/include/roles.php");
 							<li class="breadcrumb-item active">Resumen</li>
 						</ol>
 					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header">
+								<h4 class="card-title">Usuarios</h4>
+							</div>
+							<!--end card-header-->
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-striped mb-0">
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Nombre</th>
+												<th>Correo</th>
+												<th>Rol</th>
+												<th>Último acceso</th>
+												<th class="text-right">Acción</th>
+											</tr>
+										</thead>
+										<tbody>
+											<?php $userData = $db->getAllRecords('usuarios', '*', 'AND rol>"1" ORDER BY id ASC');
+											if (count($userData) > 0) {
+												$y	=	'';
+												foreach ($userData as $usuario) {
+													$rolSel = $db->getAllRecords('roles', '*', ' AND id="' . $usuario['rol'] . '" LIMIT 1');
+													$rolSel = $rolSel[0];
+													$date1 = new DateTime($usuario['fl']);
+													$date2 = new DateTime("now");
+													$diff = $date1->diff($date2);
+													$y++;
+											?>
+													<tr>
+														<td><?php echo $y ?></td>
+														<td><?php echo $usuario['nombre']; ?> <?php echo $usuario['apeidos']; ?></td>
+														<td><?php echo $usuario['email']; ?></td>
+														<td><?php echo $rolSel['nombre']; ?></td>
+														<td><?php echo get_format($diff); ?></td>
+														<td class="text-right">
+															<a href="/admin/editar/usuario?editId=<?php echo $usuario['id']; ?>"><i class="las la-pen text-info font-18"></i></a>
+															<?php
+															if ($UserData['rol'] < 2) {
+															?>
+																<a href="/admin/vercomo?id=<?php echo $usuario['id']; ?>"><i class="fa fa-eye text-info font-18"></i></a>
+															<?php
+															}
+															?>
+														</td>
+													</tr>
+											<?php
+												}
+											}
+											?>
+										</tbody>
+									</table>
+									<!--end /table-->
+								</div>
+								<!--end /tableresponsive-->
+							</div>
+							<!--end card-body-->
+						</div>
+						<!--end card-->
+					</div><!-- end col -->
 				</div>
 			</div><!-- container -->
 			<?php require_once($_SERVER["DOCUMENT_ROOT"] . "/admin/modulos/footer.php"); ?>

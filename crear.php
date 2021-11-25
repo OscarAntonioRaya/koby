@@ -253,7 +253,11 @@ if (isset($_COOKIE["seleccion"])) {
                     $count++;
                   }
                 }
+
+                //Si son muy pocas figuras, agregamos la clase "card-form" para ajustar la vista
                 $cantidad_de_formas = $count < 3 ? "card-form" : "";
+
+                //Se guarda el título en caso de no haber formas disponibles
                 $titulo = $count == 0 ?
                   "Aún no tenemos formas disponibles para $nom, ¡esperalas pronto!" :
                   "Selecciona una de las formas disponibles para <b>$nom</b>.";

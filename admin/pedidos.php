@@ -59,7 +59,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/include/roles.php");
 						<h4 class="page-title">¡Bienvenido! <?php echo $UserData['nombre']; ?></h4>
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item"><a href="javascript:void(0);">Administrador</a></li>
-							<li class="breadcrumb-item active">Resumen</li>
+							<li class="breadcrumb-item active">Pedidos</li>
 						</ol>
 					</div>
 				</div>
@@ -67,7 +67,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/include/roles.php");
 					<div class="col-md-12">
 						<div class="card">
 							<div class="card-header">
-								<h4 class="card-title">Usuarios</h4>
+								<h4 class="card-title">Pedidos</h4>
 							</div>
 							<!--end card-header-->
 							<div class="card-body">
@@ -76,40 +76,52 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/include/roles.php");
 										<thead>
 											<tr>
 												<th>#</th>
-												<th>Nombre</th>
-												<th>Correo</th>
-												<th>Rol</th>
-												<th>Último acceso</th>
+												<th>Pedido</th>
+												<th>Cliente</th>
+												<th>Material</th>
+												<th>Forma</th>
+												<th>Tarifa</th>
+												<th>Fecha y Hora</th>
+												<th>Estatus</th>
 												<th class="text-right">Acción</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php $userData = $db->getAllRecords('usuarios', '*', 'AND rol>"1" ORDER BY id ASC');
-											if (count($userData) > 0) {
+											<?php $pedidos = $db->getAllRecords('vistapedidos', '*');
+											if (count($pedidos) > 0) {
 												$y	=	'';
-												foreach ($userData as $usuario) {
-													$rolSel = $db->getAllRecords('roles', '*', ' AND id="' . $usuario['rol'] . '" LIMIT 1');
-													$rolSel = $rolSel[0];
-													$date1 = new DateTime($usuario['fl']);
-													$date2 = new DateTime("now");
-													$diff = $date1->diff($date2);
+												foreach ($pedidos as $pedido) {
 													$y++;
 											?>
 													<tr>
 														<td><?php echo $y ?></td>
-														<td><?php echo $usuario['nombre']; ?> <?php echo $usuario['apeidos']; ?></td>
-														<td><?php echo $usuario['email']; ?></td>
-														<td><?php echo $rolSel['nombre']; ?></td>
-														<td><?php echo get_format($diff); ?></td>
-														<td class="text-right">
-															<a href="/admin/editar/usuario?editId=<?php echo $usuario['id']; ?>"><i class="las la-pen text-info font-18"></i></a>
+														<td><?php echo $pedido['Pedido']; ?></td>
+														<td><?php echo $pedido['Cliente']; ?></td>
+														<td><?php echo $pedido['Material']; ?></td>
+														<td><?php echo $pedido['Forma']; ?></td>
+														<td><?php echo $pedido['Tarifa']; ?></td>
+														<td><?php echo $pedido['Fecha']; ?></td>
+														<td>
 															<?php
-															if ($UserData['rol'] < 2) {
-															?>
-																<a href="/admin/vercomo?id=<?php echo $usuario['id']; ?>"><i class="fa fa-eye text-info font-18"></i></a>
-															<?php
+															$estatus;
+															switch ($pedido['Estatus']) {
+																case 1:
+																	$estatus = 'Abierto';
+																	break;
+																case 2:
+																	$estatus = 'Cerrado';
+																	break;
+																case 3:
+																	$estatus = 'Enviado';
+																	break;
+																default:
+																	$estatus = 'Desconocido';
 															}
+															echo $estatus;
 															?>
+														</td>
+														<td class="text-right">
+															<a href="/admin/editar/pedido?editId=<?php echo $pedido['Pedido']; ?>"><i class="las la-pen text-info font-18"></i></a>
 														</td>
 													</tr>
 											<?php

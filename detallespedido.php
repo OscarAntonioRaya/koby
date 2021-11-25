@@ -1,6 +1,7 @@
 <?php
 if (isset($_REQUEST)) {
   extract($_REQUEST);
+  //Renombramos la variable porque podemos
   $ruta = $img;
 }
 ?>
